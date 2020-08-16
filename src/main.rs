@@ -16,15 +16,7 @@ fn main() {
         args.push(*p);
     }
 
-    let mut output_type_str = "dynamic";
-
-
-
-    let output_type = match output_type_str {
-        "intel_asm" => OutputType::IntelAsm,
-        "dynamic" => OutputType::Dynamic,
-        _ => OutputType::Dynamic
-    };
+    let output_type_str = "dynamic";
 
     if std::env::args().len() > 2 {
         let output_type = match &*std::env::args().collect::<Vec<String>>()[2] {

@@ -1,4 +1,4 @@
-use crate::operation::{OutputWriter, Operation, OperationType};
+use crate::operation::{OutputWriter, Operation};
 use crate::operation::OperationType::*;
 
 pub struct IntelAsmWriter {}
