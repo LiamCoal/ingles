@@ -2,3 +2,4 @@
 a.out
 *.asm
 *.o
+.idea/workspace.xml
