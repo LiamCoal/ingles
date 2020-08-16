@@ -1,0 +1,26 @@
+// f
+#writer intel_asm
+#text
+#start_func begin
+
+func begin begin
+    read v0 into rax
+    write rax into v1
+    call thing
+    push value rdx
+    pop value rcx
+    exit proc with rcx
+    run interrupt 80
+func end
+
+func begin thing
+    rdx = 0
+func end
+
+#data
+
+    variable v0: b set to 1
+
+#udata
+
+    variable v1: b
