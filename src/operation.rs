@@ -87,7 +87,7 @@ fn check(operation_type: OperationType, line: &str, re: Regex, index: usize) -> 
         for i in args.iter().skip(1) {
             vec.push(i.unwrap().as_str().parse().unwrap());
         }
-        println!("[{:>3}] {} : {} [{}]", index, line, operation_type, vec.join(", "));
+        //println!("[{:>3}] {} : {} [{}]", index, line, operation_type, vec.join(", "));
         return Some(Operation { op: operation_type, args: vec, orig: line.parse().unwrap(), line: index });
     }
     Option::None
