@@ -32,7 +32,7 @@ impl OutputWriter for IntelAsmWriter {
         let spl = rs.split('\n').collect::<Vec<&str>>();
         if !rs.is_empty() {
             for i in 0..(&*spl).len() {
-                r += &*format!("{:<60} ; [{:>3}] {}\n", spl[i], operation.line, operation.orig);
+                r += &*format!("{:<60} ; [{:>3} / {}] {}\n", spl[i], operation.line, operation.file, operation.orig);
             }
         }
         r.into_bytes()

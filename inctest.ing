@@ -1,0 +1,4 @@
+func begin testinc
+func end
+
+#include test.ing
