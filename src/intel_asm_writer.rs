@@ -1,5 +1,6 @@
-use crate::operation::{OutputWriter, Operation};
+use crate::operation::{OutputWriter, Operation, OperationType};
 use crate::operation::OperationType::*;
+use rand::Rng;
 
 pub struct IntelAsmWriter {}
 
@@ -26,7 +27,23 @@ impl OutputWriter for IntelAsmWriter {
             WriteToMemory => format!("     mov [{}], {}", operation.args[1], operation.args[0]),
             DefineVariable => format!("{}: d{} {}", operation.args[0], operation.args[1], operation.args[2]),
             DefineUninitVariable => format!("{}: res{} 1", operation.args[0], operation.args[1]),
-            RunInterrupt => format!("     int {}h", operation.args[0])
+            RunInterrupt => format!("     int {}h", operation.args[0]),
+            ReadFromMemoryRange => format!("
+     push rdx
+     push cx
+     push rax
+     mov rdx, {1}
+  .{0}:
+     mov [rdx], cl
+     mov cl, [{2}+rdx]
+     inc rax
+     inc rdx
+     cmp rax, {2}-{1}
+      jl .{0}
+     pop rax
+     pop cx
+     pop rdx
+     ", rand::thread_rng().gen_range(std::u32::MAX / 2, std::u32::MAX), operation.args[0], operation.args[1])
         };
         let mut r = String::new();
         let spl = rs.split('\n').collect::<Vec<&str>>();

@@ -95,6 +95,7 @@ pub fn parse(file: &str, inc_ban_list: Vec<String>) -> Vec<Box<Operation>> {
         push_to(&mut op, RunInterrupt, line, Regex::new(r"^run interrupt (?P<code>.+)$").unwrap(), index+1, file);
         push_to(&mut op, None, line, Regex::new(r"^\s*$").unwrap(), index+1, file);
         push_to(&mut op, None, line, Regex::new(r"^//.*$").unwrap(), index+1, file);
+        push_to(&mut op, ReadFromMemoryRange, line, Regex::new(r"^read \[(?P<code>.+)\.\.(?P<code2>.+)] into (?P<reg>.+)$").unwrap(), index+1, file);
         if Regex::new(r"^#include (?P<b>.+)$").unwrap().is_match(line) {
             let args = Regex::new(r"^#include (?P<b>.+)$").unwrap().captures(line).unwrap();
             let mut vec: Vec<String> = vec![];
@@ -212,6 +213,7 @@ pub enum OperationType {
     PushToStack,
     PopFromStack,
     ReadFromMemory,
+    ReadFromMemoryRange,
     WriteToMemory,
     DefineVariable,
     DefineUninitVariable,
@@ -243,7 +245,8 @@ impl Display for OperationType {
             WriteToMemory => "WRITE",
             DefineVariable => "VARIABLE",
             DefineUninitVariable => "UVARIABLE",
-            RunInterrupt => "INTERRUPT "
+            RunInterrupt => "INTERRUPT",
+            ReadFromMemoryRange => "READ RANGE"
         })
     }
 }
